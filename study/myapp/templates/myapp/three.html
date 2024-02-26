@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'myapp/css/lesson.css' %}">
+
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <a href="{% url 'myapp:home' %}">
+            <img src="{% static 'myapp/images/logo.jpg' %}" alt="">
+          </a>
+        </div>
+        <!--  -->
+    </header>
+    {% for lesson in lessons %}
+    <section>
+        <div class="lesson">
+            <img src="{{ lesson.image.url }}" alt="{{ lesson.title_kz }}" class="img-lessons">
+            <div class="lesson-info">
+                <h5 class="glav"><strong>{{ lesson.title_kz }}</strong></h5>
+                <p class="des">{{ lesson.sub_title_kz }}</p>
+                <br><br>
+                <p class="ops">{{ lesson.description_kz }}</p>
+                <audio id="audio_kz">
+                    <source src="{{ lesson.audio_kz.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <button onclick="playAudio('audio_kz')">Ойнату</button>
+            </div>
+            <div class="lesson-info">
+                <h5 class="glav"><strong>{{ lesson.title_ru }}</strong></h5>
+                <p class="des">{{ lesson.sub_title_ru }}</p>
+                <br><br>
+                <p class="ops">{{ lesson.description_ru }}</p>
+                <audio id="audio_ru">
+                    <source src="{{ lesson.audio_ru.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <button onclick="playAudio('audio_ru')">Слушать</button>
+            </div>
+            <div class="lesson-info">
+                <h5 class="glav"><strong>{{ lesson.title_en }}</strong></h5>
+                <p class="des">{{ lesson.sub_title_en }}</p>
+                <br><br>
+                <p class="ops">{{ lesson.description_en }}</p>
+                <audio id="audio_en">
+                    <source src="{{ lesson.audio_en.url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <button onclick="playAudio('audio_en')">Play</button>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+    
+
+
+<script src="{% static 'myapp/js/lesson.js' %}"></script>
+</body>
+</html>

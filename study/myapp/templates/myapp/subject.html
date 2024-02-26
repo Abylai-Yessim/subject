@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'myapp/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'myapp/css/subject.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <a href="{% url 'myapp:home' %}">
+            <img src="{% static 'myapp/images/logo.jpg' %}" alt="">
+          </a>
+        </div>
+        <div class="search">
+          <form action="{% url 'myapp:search_subject' %}" method="get">
+            <input type="text" name="sub_query" placeholder="Поиск">
+            <button type="submit" class="search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </form>
+        </div>  
+    </header>
+    <section class="all">
+        <div class="alphabet">
+            {% if alphabet %}
+                {% for letter in alphabet %}
+                    <a href="?lang={{ selected_language.name }}&letter={{ letter }}" class="alphabet-letter">{{ letter }}</a>
+                {% endfor %}
+            {% else %}
+                <span>Алфавит не найден</span>
+            {% endif %}
+        </div>        
+        
+        <div>
+            {% for language in languages %}
+                <a href="?lang={{ language.name }}" class="lang-select">{{ language.name }}</a>
+            {% endfor %}
+        </div>
+        {% for word in words %}
+            <div>
+                <p>{{ word.chapter }}</p>
+                {% for translation in word.wordtranslation_set.all %}
+                    {% if translation.language.name == selected_language.name or not selected_language %}
+                        <a href="{% url 'myapp:three' %}">
+                            <p class="word-topic" data-lang="{{ translation.language.name }}">{{ translation.topic }}</p>
+                        </a>
+                    {% endif %}
+                {% empty %}
+                    {% if not selected_language %}
+                        <a href="{% url 'myapp:three' %}">
+                            <p class="word-topic" data-lang="">{{ word.wordtranslation_set.first.topic }}</p>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </section>
+    
+    
+    
+    
+    
+<script src="{% static 'myapp/js/subject.js' %}"></script>
+</body>
+</html>
