@@ -2,23 +2,22 @@ from django.db import models
 from django.conf import settings
 
 
-# Модель языка
+
 class Language(models.Model):
     name = models.CharField(max_length=100)
     
     def __str__(self):
         return self.name
 
-# Модель алфавита
+
 class Alphabet(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
-    letters = models.TextField()  # Список букв алфавита, например, "А,Ә,Б,В,..."
+    letters = models.TextField() 
 
     def __str__(self):
         return self.language.name
 
 
-# Модель слова
 class Word(models.Model):
     chapter = models.IntegerField()
     languages = models.ManyToManyField(Language, through='WordTranslation')
@@ -26,7 +25,7 @@ class Word(models.Model):
     def __str__(self):
         return f"Chapter {self.chapter}"
 
-# Промежуточная модель для хранения текста слова на каждом языке
+
 class WordTranslation(models.Model):
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
@@ -35,14 +34,14 @@ class WordTranslation(models.Model):
     def __str__(self):
         return f"{self.language}: {self.topic}"
 
-# Модель темы
+
 class Topic(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
-# Модель урока
+
 class Lesson(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     languages = models.ManyToManyField(Language, through='LessonTranslation')
@@ -50,7 +49,7 @@ class Lesson(models.Model):
     def __str__(self):
         return f"Lesson on {self.topic}"
 
-# Промежуточная модель для хранения текста урока на каждом языке
+
 class LessonTranslation(models.Model):
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.CASCADE)

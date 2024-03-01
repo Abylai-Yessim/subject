@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import *
-from django.core.exceptions import ObjectDoesNotExist
+# from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 
 # Create your views here.
@@ -27,7 +27,6 @@ def three(request):
         'lessons': lessons,
     }
     return render(request, 'myapp/three.html', context=data)
-
 
 
 def subject(request):
